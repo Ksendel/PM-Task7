@@ -130,57 +130,7 @@
             selectedFile = null
         }
     }
-    //SELECT - well, I tried О_О
 
-    // function initSelection() {
-    //     let div = document.getElementById('div-selection'), x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-    //     function reCalc() {
-    //         let x3 = Math.min(x1,x2);
-    //         let x4 = Math.max(x1,x2);
-    //         let y3 = Math.min(y1,y2);
-    //         let y4 = Math.max(y1,y2);
-    //         div.style.left = x3 + 'px';
-    //         div.style.top = y3 + 'px';
-    //         div.style.width = x4 - x3 + 'px';
-    //         div.style.height = y4 - y3 + 'px';
-    //     }
-    //     onmousedown = function(e) {
-    //         const taskElements = document.querySelectorAll(`.newFile`);
-    //         for (let item of taskElements) {
-    //             item.classList.remove("mystyle");
-    //         }
-    //         div.hidden = 0;
-    //
-    //         x1 = e.clientX;
-    //         y1 = e.clientY;
-    //         reCalc();
-    //     };
-    //     onmousemove = function(e) {
-    //         x2 = e.clientX;
-    //         y2 = e.clientY;
-    //         reCalc();
-    //     };
-    //     onmouseup = function(e) {
-    //         console.log(div);
-    //         console.log(div.offsetTop);
-    //         console.log(div.offsetWidth);
-    //         selectElements(div.offsetTop,div.offsetWidth);
-    //         div.hidden = 1;
-    //
-    //     };
-    // }
-    // function selectElements(y,x){
-    //     const taskElements = document.querySelectorAll(`.newFile`);
-    //     for (let item of taskElements) {
-    //
-    //         console.log(item.offsetTop);
-    //         console.log(item.offsetWidth);
-    //         if(item.offsetTop > y && item.offsetWidth <x ) {
-    //             console.log('yes');
-    //             item.classList.add("mystyle");
-    //         }
-    //     }
-    // }
     function positionMenuFile(e, menuElement) {
         let clickCoords;
         let clickCoordsX;
@@ -219,7 +169,7 @@
     }
 
     function menuItemListener(link) {
-        if ( link.getAttribute("data-action") === menuItemOptions.AddFile) {
+        if (link.getAttribute("data-action") === menuItemOptions.AddFile) {
             console.log('add')
             driveItemContext.appendChild(addFile())
             toggleMenuOff();
@@ -230,21 +180,27 @@
             toggleMenuOffFile();
         } else if (link.getAttribute("data-action") === menuItemOptions.RenameFile) {
             console.log("Rename file: " + selectedFile)
-               document.getElementById(selectedFile).innerHTML = prompt('\n' +
-                    'Enter a new filename:')
+            document.getElementById(selectedFile).innerHTML = prompt('\n' +
+                'Enter a new filename:')
             toggleMenuOffFile();
         }
     }
+
     let fileList = []
+
     function addFile() {
 
         let newDiv = document.createElement('div');
 
         newDiv.className = 'newFile';
         newDiv.draggable = true;
-        newDiv.id = (newDiv.innerHTML = prompt('Enter file name', '1.txt'))
+        let fileName = newDiv.innerHTML = prompt('Enter file name', '1.txt')
+        newDiv.id = fileName
 
-        if (fileList.includes(newDiv.id) === false) {
+        if (fileName === '') {
+            return alert("Enter file name again.")
+        }
+        else if (fileList.includes(newDiv.id) === false) {
             fileList.push(newDiv.id)
         } else {
             return alert("Such file already exists")
@@ -255,7 +211,9 @@
 
     function deleteFile() {
         let fileId = selectedFile
-        fileList = fileList.filter((n) => {return n !== fileId})
+        fileList = fileList.filter((n) => {
+            return n !== fileId
+        })
     }
 
 
@@ -265,7 +223,7 @@
         const taskElements = tasksListElement.querySelectorAll(`.newFile`);
 
 
-        console.log( "taskElements" + Array.of(taskElements.entries()))
+        console.log("taskElements" + Array.of(taskElements.entries()))
         console.log("tasksListElement" + tasksListElement)
 
         tasksListElement.addEventListener(`dragstart`, (evt) => {
